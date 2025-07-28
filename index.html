@@ -11,17 +11,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <!-- 
     Chosen Palette: Strategic Harmony
-    Application Structure Plan: The SPA is designed as a narrative journey, starting with a high-level introduction (Hero Section), defining the market problem with dynamic stats, and then introducing the target audience (ICP & Personas). It then presents the solution (Value Proposition & Attributes), proves its superiority (Benchmark Analysis), shows the customer's perspective (Action Map), and finally reveals the brand's core identity (Prisma Brand). This storytelling approach was chosen over a static report structure to create a more engaging and persuasive experience, guiding the user logically from "why" the product exists to "what" it is and "who" it is for.
+    Application Structure Plan: The SPA is designed as a narrative journey, starting with a high-level introduction (Hero Section), defining the market problem with dynamic stats, and then introducing the target audience (ICP & Personas). It then presents the solution (Value Proposition & Attributes), proves its superiority (Benchmark Analysis), shows the customer's perspective (Action Map), reveals the brand's core identity (Prisma Brand), and finally outlines the Visual Identity. This storytelling approach was chosen over a static report structure to create a more engaging and persuasive experience.
     Visualization & Content Choices:
-    - Benchmark Synthesis -> Goal: Compare -> Viz/Presentation Method: Radar Chart -> Interaction: Tooltips on hover -> Justification: A Radar Chart is the most effective way to visually compare a central entity (VOC Analytics) against competitor archetypes across multiple strategic dimensions, all within a single, easy-to-understand graphic. -> Library/Method: Chart.js/Canvas.
-    - ICP, Personas, Attributes, Prisma Brand -> Goal: Organize/Inform -> Viz/Presentation Method: Styled HTML Cards & Grid Layouts -> Interaction: Subtle hover effects -> Justification: Cards are ideal for breaking down complex qualitative information into digestible, structured segments. The grid provides a clean, responsive layout for these components. -> Library/Method: Tailwind CSS.
-    - Customer Action Map -> Goal: Organize -> Viz/Presentation Method: 3-Column HTML Layout -> Interaction: None -> Justification: A simple three-column layout clearly separates the customer's Jobs, Pains, and Gains, making the value proposition canvas easy to read. -> Library/Method: Tailwind CSS.
+    - Benchmark Synthesis -> Goal: Compare -> Viz/Presentation Method: Radar Chart -> Interaction: Tooltips on hover -> Justification: A Radar Chart is the most effective way to visually compare a central entity (VOC Analytics) against competitor archetypes across multiple strategic dimensions. -> Library/Method: Chart.js/Canvas.
+    - ICP, Personas, Attributes, Prisma Brand, Visual Identity -> Goal: Organize/Inform -> Viz/Presentation Method: Styled HTML Cards & Grid Layouts -> Interaction: Subtle hover effects -> Justification: Cards are ideal for breaking down complex qualitative information into digestible, structured segments. -> Library/Method: Tailwind CSS.
     CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
     -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F7F5F2; /* Warm Neutral */
+            background-color: #071E3D; /* Dark Blue */
+            color: #F7F5F2; /* Light Gray */
         }
         .chart-container {
             position: relative;
@@ -33,18 +33,21 @@
             max-height: 500px;
         }
         .card {
-            background-color: #FFFFFF;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 0.75rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background-color: rgba(255, 255, 255, 0.1);
         }
         .text-brand-dark { color: #071E3D; }
+        .text-brand-light { color: #F7F5F2; }
         .text-brand-teal { color: #4D96A9; }
         .text-brand-coral { color: #FF6B6B; }
+        .text-brand-yellow { color: #FCA104; }
         .bg-brand-dark { background-color: #071E3D; }
         .bg-brand-teal { background-color: #4D96A9; }
         .bg-brand-coral { background-color: #FF6B6B; }
@@ -55,24 +58,32 @@
             border-radius: 9999px;
             transition: background-color 0.3s, color 0.3s;
             cursor: pointer;
+            color: #cbd5e1; /* Lighter text for nav */
         }
         .nav-link:hover, .nav-link.active {
-            background-color: #071E3D;
-            color: #FFFFFF;
+            background-color: #F7F5F2;
+            color: #071E3D;
+        }
+        .color-swatch {
+            width: 100%;
+            height: 4rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
         }
     </style>
 </head>
-<body class="text-brand-dark">
+<body class="text-brand-light">
 
-    <nav class="sticky top-0 bg-white/80 backdrop-blur-md z-50 shadow-sm">
+    <nav class="sticky top-0 bg-brand-dark/80 backdrop-blur-md z-50 shadow-lg">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-4">
-                <div class="font-black text-2xl text-brand-dark">VOC <span class="text-brand-teal">Analytics</span></div>
+                <div class="font-black text-2xl text-brand-light">VOC <span class="text-brand-teal">Analytics</span></div>
                 <div class="hidden md:flex space-x-2 font-medium text-sm">
                     <a onclick="scrollToSection('problema')" class="nav-link">El Problema</a>
                     <a onclick="scrollToSection('solucion')" class="nav-link">La Solución</a>
                     <a onclick="scrollToSection('benchmark')" class="nav-link">Benchmark</a>
                     <a onclick="scrollToSection('prisma')" class="nav-link">ADN de Marca</a>
+                    <a onclick="scrollToSection('identidad-visual')" class="nav-link">Identidad Visual</a>
                 </div>
             </div>
         </div>
@@ -81,69 +92,69 @@
     <div class="container mx-auto p-4 md:p-8">
 
         <header class="text-center py-16 md:py-24">
-            <h1 class="text-4xl md:text-6xl font-black text-brand-dark mb-4">La Estrategia de Marca</h1>
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-4">La Estrategia de Marca</h1>
             <p class="text-lg md:text-xl text-brand-teal font-bold">Reposicionamiento de VOC Analytics by Sixbell</p>
-            <p class="max-w-3xl mx-auto mt-4 text-gray-600">Un análisis interactivo de nuestra estrategia para transformar la oferta de VOC en una plataforma "Product-Led" que demuestra un impacto financiero real y se posiciona como un socio estratégico para nuestros clientes.</p>
+            <p class="max-w-3xl mx-auto mt-4 text-gray-400">Un análisis interactivo de nuestra estrategia para transformar la oferta de VOC en una plataforma "Product-Led" que demuestra un impacto financiero real y se posiciona como un socio estratégico para nuestros clientes.</p>
         </header>
 
         <main>
             <section id="problema" class="mb-20">
                 <h2 class="text-3xl font-bold text-center mb-2">El Problema del Mercado</h2>
-                <p class="text-center text-gray-600 mb-10">Las empresas luchan por demostrar el ROI de sus iniciativas de CX.</p>
+                <p class="text-center text-gray-400 mb-10">Las empresas luchan por demostrar el ROI de sus iniciativas de CX.</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     <div class="card p-6">
                         <div class="text-5xl mb-4">⏳</div>
-                        <h3 class="font-bold text-xl mb-2">Herramientas Lentas y Estáticas</h3>
-                        <p class="text-gray-600">El análisis manual de datos consume tiempo valioso y retrasa la toma de decisiones críticas.</p>
+                        <h3 class="font-bold text-xl mb-2 text-white">Herramientas Lentas y Estáticas</h3>
+                        <p class="text-gray-400">El análisis manual de datos consume tiempo valioso y retrasa la toma de decisiones críticas.</p>
                     </div>
                     <div class="card p-6">
                         <div class="text-5xl mb-4">📉</div>
-                        <h3 class="font-bold text-xl mb-2">Insights Superficiales</h3>
-                        <p class="text-gray-600">Las métricas tradicionales como el NPS no logran conectarse con los resultados de negocio, dejando un vacío de valor.</p>
+                        <h3 class="font-bold text-xl mb-2 text-white">Insights Superficiales</h3>
+                        <p class="text-gray-400">Las métricas tradicionales como el NPS no logran conectarse con los resultados de negocio, dejando un vacío de valor.</p>
                     </div>
                     <div class="card p-6">
                         <div class="text-5xl mb-4">🔗</div>
-                        <h3 class="font-bold text-xl mb-2">ROI Intangible</h3>
-                        <p class="text-gray-600">La falta de conexión entre la inversión en CX y el impacto financiero real debilita la posición estratégica del área.</p>
+                        <h3 class="font-bold text-xl mb-2 text-white">ROI Intangible</h3>
+                        <p class="text-gray-400">La falta de conexión entre la inversión en CX y el impacto financiero real debilita la posición estratégica del área.</p>
                     </div>
                 </div>
             </section>
 
             <section id="cliente" class="mb-20">
                 <h2 class="text-3xl font-bold text-center mb-10">Nuestro Cliente Ideal</h2>
-                <div class="bg-white rounded-lg shadow-lg p-8 mb-10">
-                     <h3 class="font-bold text-2xl text-center mb-6">Arquetipo de Cliente (ICP)</h3>
+                <div class="card p-8 mb-10">
+                     <h3 class="font-bold text-2xl text-center mb-6 text-white">Arquetipo de Cliente (ICP)</h3>
                      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                        <div><p class="font-bold">Industrias:</p><p class="text-gray-600">Telco, Banca, Retail, Seguros</p></div>
-                        <div><p class="font-bold">Tamaño:</p><p class="text-gray-600">>500 empleados</p></div>
-                        <div><p class="font-bold">Geografía:</p><p class="text-gray-600">LATAM</p></div>
-                        <div><p class="font-bold">Madurez:</p><p class="text-gray-600">Equipo de CX y uso de CRM</p></div>
+                        <div><p class="font-bold">Industrias:</p><p class="text-gray-400">Telco, Banca, Retail, Seguros</p></div>
+                        <div><p class="font-bold">Tamaño:</p><p class="text-gray-400">>500 empleados</p></div>
+                        <div><p class="font-bold">Geografía:</p><p class="text-gray-400">LATAM</p></div>
+                        <div><p class="font-bold">Madurez:</p><p class="text-gray-400">Equipo de CX y uso de CRM</p></div>
                      </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="card p-6">
                         <h4 class="font-bold text-xl text-brand-teal">Ana, la Estratega</h4>
                         <p class="font-medium text-gray-500 mb-4">Gerente de CX</p>
-                        <p class="text-sm text-gray-700"><strong class="text-brand-coral">Dolor:</strong> "Me cuesta conectar las métricas de satisfacción (NPS) con el ROI."</p>
-                        <p class="text-sm text-gray-700 mt-2"><strong class="text-brand-teal">Necesita:</strong> Datos para demostrar el valor de su área y ser vista como líder estratégica.</p>
+                        <p class="text-sm text-gray-300"><strong class="text-brand-coral">Dolor:</strong> "Me cuesta conectar las métricas de satisfacción (NPS) con el ROI."</p>
+                        <p class="text-sm text-gray-300 mt-2"><strong class="text-brand-teal">Necesita:</strong> Datos para demostrar el valor de su área y ser vista como líder estratégica.</p>
                     </div>
                      <div class="card p-6">
                         <h4 class="font-bold text-xl text-brand-teal">Carlos, el Operativo</h4>
                         <p class="font-medium text-gray-500 mb-4">Gerente de Operaciones</p>
-                        <p class="text-sm text-gray-700"><strong class="text-brand-coral">Dolor:</strong> "Nos enteramos de los problemas cuando ya es demasiado tarde."</p>
-                        <p class="text-sm text-gray-700 mt-2"><strong class="text-brand-teal">Necesita:</strong> Una herramienta para pasar de un modelo reactivo a uno proactivo.</p>
+                        <p class="text-sm text-gray-300"><strong class="text-brand-coral">Dolor:</strong> "Nos enteramos de los problemas cuando ya es demasiado tarde."</p>
+                        <p class="text-sm text-gray-300 mt-2"><strong class="text-brand-teal">Necesita:</strong> Una herramienta para pasar de un modelo reactivo a uno proactivo.</p>
                     </div>
                      <div class="card p-6">
                         <h4 class="font-bold text-xl text-brand-teal">Valeria, la Decisora</h4>
                         <p class="font-medium text-gray-500 mb-4">Directora Comercial / CIO</p>
-                        <p class="text-sm text-gray-700"><strong class="text-brand-coral">Dolor:</strong> "No estoy segura de que nuestras inversiones en CX estén dando frutos."</p>
-                        <p class="text-sm text-gray-700 mt-2"><strong class="text-brand-teal">Necesita:</strong> Un caso de negocio sólido con números claros que justifiquen la inversión.</p>
+                        <p class="text-sm text-gray-300"><strong class="text-brand-coral">Dolor:</strong> "No estoy segura de que nuestras inversiones en CX estén dando frutos."</p>
+                        <p class="text-sm text-gray-300 mt-2"><strong class="text-brand-teal">Necesita:</strong> Un caso de negocio sólido con números claros que justifiquen la inversión.</p>
                     </div>
                 </div>
             </section>
 
-            <section id="solucion" class="mb-20 bg-brand-dark text-white rounded-lg shadow-xl p-8 md:p-12">
-                <h2 class="text-3xl font-bold text-center mb-2">Nuestra Propuesta de Valor</h2>
+            <section id="solucion" class="mb-20 bg-white/5 border border-white/10 rounded-lg shadow-xl p-8 md:p-12">
+                <h2 class="text-3xl font-bold text-center mb-2 text-white">Nuestra Propuesta de Valor</h2>
                 <p class="text-center text-gray-300 mb-10">Una solución tecnológica viva y predictiva que demuestra su valor desde el primer día.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                     <div class="text-center">
@@ -171,7 +182,7 @@
 
             <section id="benchmark" class="mb-20">
                 <h2 class="text-3xl font-bold text-center mb-2">Posicionamiento en el Mercado</h2>
-                <p class="text-center text-gray-600 mb-10">Nuestra oportunidad única es ocupar el espacio ideal entre los gigantes globales y las herramientas locales.</p>
+                <p class="text-center text-gray-400 mb-10">Nuestra oportunidad única es ocupar el espacio ideal entre los gigantes globales y las herramientas locales.</p>
                 <div class="card p-6 md:p-8">
                     <div class="chart-container">
                         <canvas id="benchmarkChart"></canvas>
@@ -185,40 +196,100 @@
                     <div class="space-y-8">
                         <h3 class="text-2xl font-black text-center text-brand-teal pb-2 border-b-2 border-brand-teal">PERSPECTIVA EXTERNA</h3>
                         <div class="card p-6">
-                            <h4 class="font-bold text-xl mb-2">Aspecto Físico</h4>
-                            <p class="text-gray-600">Plataforma moderna y limpia, dashboards dinámicos ("El Pulso del Cliente"), reflejando tecnología y resultados.</p>
+                            <h4 class="font-bold text-xl mb-2 text-white">Aspecto Físico</h4>
+                            <p class="text-gray-400">Plataforma moderna y limpia, dashboards dinámicos ("El Pulso del Cliente"), reflejando tecnología y resultados.</p>
                         </div>
                         <div class="card p-6">
-                            <h4 class="font-bold text-xl mb-2">Relaciones</h4>
-                            <p class="text-gray-600">Una alianza estratégica y consultiva. Actuamos como un partner cercano que genera un ciclo de valor continuo.</p>
+                            <h4 class="font-bold text-xl mb-2 text-white">Relaciones</h4>
+                            <p class="text-gray-400">Una alianza estratégica y consultiva. Actuamos como un partner cercano que genera un ciclo de valor continuo.</p>
                         </div>
                         <div class="card p-6">
-                            <h4 class="font-bold text-xl mb-2">Reflejo</h4>
-                            <p class="text-gray-600">El consumidor percibe a VOC Analytics como una marca inteligente, innovadora y confiable. Es la marca de la certeza.</p>
+                            <h4 class="font-bold text-xl mb-2 text-white">Reflejo</h4>
+                            <p class="text-gray-400">El consumidor percibe a VOC Analytics como una marca inteligente, innovadora y confiable. Es la marca de la certeza.</p>
                         </div>
                     </div>
                      <div class="space-y-8">
                         <h3 class="text-2xl font-black text-center text-brand-coral pb-2 border-b-2 border-brand-coral">PERSPECTIVA INTERNA</h3>
                         <div class="card p-6">
-                            <h4 class="font-bold text-xl mb-2">Personalidad (El Sabio / Mago)</h4>
-                            <p class="text-gray-600">Somos expertos visionarios que transforman la complejidad en simplicidad. Nuestra personalidad es resolutiva, proactiva y predictiva.</p>
+                            <h4 class="font-bold text-xl mb-2 text-white">Personalidad (El Sabio / Mago)</h4>
+                            <p class="text-gray-400">Somos expertos visionarios que transforman la complejidad en simplicidad. Nuestra personalidad es resolutiva, proactiva y predictiva.</p>
                         </div>
                         <div class="card p-6">
-                            <h4 class="font-bold text-xl mb-2">Cultura</h4>
-                            <p class="text-gray-600">Filosofía "Product-Led" con un enfoque total en el ROI del cliente. Combinamos lo analítico y estadístico con lo humano y empático.</p>
+                            <h4 class="font-bold text-xl mb-2 text-white">Cultura</h4>
+                            <p class="text-gray-400">Filosofía "Product-Led" con un enfoque total en el ROI del cliente. Combinamos lo analítico y estadístico con lo humano y empático.</p>
                         </div>
                         <div class="card p-6">
-                            <h4 class="font-bold text-xl mb-2">Auto-Imagen</h4>
-                            <p class="text-gray-600">Terceros ven a nuestros usuarios como líderes estratégicos a la vanguardia, capaces de demostrar el impacto de sus acciones.</p>
+                            <h4 class="font-bold text-xl mb-2 text-white">Auto-Imagen</h4>
+                            <p class="text-gray-400">Terceros ven a nuestros usuarios como líderes estratégicos a la vanguardia, capaces de demostrar el impacto de sus acciones.</p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="identidad-visual" class="mb-20">
+                <h2 class="text-3xl font-bold text-center mb-10">Identidad Visual: Dando Forma a la Inteligencia</h2>
+                <div class="card p-8 md:p-12 mb-10">
+                    <h3 class="text-2xl font-bold text-center text-brand-teal mb-6">Concepto Creativo Central: "El Pulso del Cliente"</h3>
+                    <p class="text-center max-w-3xl mx-auto text-gray-300">Nuestra identidad visual se basa en la idea de transformar el "ruido" caótico de millones de datos de clientes en una señal clara, rítmica y predictiva: **el pulso del negocio**. Este concepto visualiza la transformación (Mago) y la verdad encontrada en los datos (Sabio). Representa una marca viva, dinámica y siempre conectada.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card p-6">
+                        <h4 class="font-bold text-xl mb-4 text-white">Logotipo</h4>
+                        <p class="text-gray-400">El logo debe ser un imagotipo limpio y tecnológico. Combina una tipografía sans-serif sólida y legible (el "Sabio") con un isotipo que represente una onda de pulso o un nodo de datos en conexión (el "Mago"). Debe transmitir inteligencia, dinamismo y precisión.</p>
+                    </div>
+                    <div class="card p-6">
+                        <h4 class="font-bold text-xl mb-4 text-white">Tipografía</h4>
+                        <p class="text-gray-400"><strong class="text-brand-light">Titulares: Inter (Bold, Black).</strong> Moderna, geométrica y con autoridad. Perfecta para comunicar con la certeza del Sabio.</p>
+                        <p class="text-gray-400 mt-2"><strong class="text-brand-light">Cuerpo de Texto: Inter (Regular).</strong> Asegura máxima legibilidad y una experiencia de usuario limpia y profesional en la plataforma.</p>
+                    </div>
+                    <div class="card p-6 col-span-1 md:col-span-2">
+                        <h4 class="font-bold text-xl mb-4 text-center text-white">Paleta de Colores</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                            <div>
+                                <div class="color-swatch bg-brand-dark"></div>
+                                <p class="font-bold mt-2">Azul Oscuro</p>
+                                <p class="text-sm text-gray-500">#071E3D</p>
+                                <p class="text-sm text-gray-400 mt-1">Confianza, Sabiduría, Tecnología</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch bg-brand-teal"></div>
+                                <p class="font-bold mt-2">Teal</p>
+                                <p class="text-sm text-gray-500">#4D96A9</p>
+                                <p class="text-sm text-gray-400 mt-1">Inteligencia, Claridad, Innovación</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch bg-brand-coral"></div>
+                                <p class="font-bold mt-2">Coral</p>
+                                <p class="text-sm text-gray-500">#FF6B6B</p>
+                                <p class="text-sm text-gray-400 mt-1">Acción, Alerta, Transformación</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch" style="background-color: #FCA104;"></div>
+                                <p class="font-bold mt-2">Amarillo</p>
+                                <p class="text-sm text-gray-500">#FCA104</p>
+                                <p class="text-sm text-gray-400 mt-1">Insight, Valor, ROI</p>
+                            </div>
+                            <div>
+                                <div class="color-swatch" style="background-color: #F7F5F2;"></div>
+                                <p class="font-bold mt-2">Gris Cálido</p>
+                                <p class="text-sm text-gray-500">#F7F5F2</p>
+                                <p class="text-sm text-gray-400 mt-1">Fondo, Limpieza, Profesionalismo</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="card p-6 col-span-1 md:col-span-2">
+                        <h4 class="font-bold text-xl mb-4 text-white">Estilo Gráfico y Fotográfico</h4>
+                        <p class="text-gray-400"><strong class="text-brand-light">Visualización de Datos:</strong> Es el corazón de nuestra identidad. Los gráficos deben ser limpios, elegantes y dinámicos. Usar los colores de acento (Coral, Amarillo) para destacar los insights clave es fundamental.</p>
+                        <p class="text-gray-400 mt-2"><strong class="text-brand-light">Iconografía:</strong> Minimalista y de línea fina. Los iconos deben ser funcionales y representar conceptos de forma clara y directa, sin distracciones.</p>
+                        <p class="text-gray-400 mt-2"><strong class="text-brand-light">Fotografía:</strong> Abstracta y conceptual. Evitar fotos de stock genéricas. Priorizar imágenes de redes neuronales, flujos de datos y entornos de trabajo tecnológicos y limpios que inspiren inteligencia y control.</p>
                     </div>
                 </div>
             </section>
         </main>
 
-        <footer class="text-center mt-16 pt-8 border-t border-gray-200">
-            <p class="font-black text-3xl text-brand-dark">Sixbell</p>
-            <p class="text-gray-600">Liderando la conversación sobre CX y Tecnología.</p>
+        <footer class="text-center mt-16 pt-8 border-t border-white/20">
+            <p class="font-black text-3xl text-white">Sixbell</p>
+            <p class="text-gray-400">Liderando la conversación sobre CX y Tecnología.</p>
         </footer>
     </div>
 
@@ -309,21 +380,24 @@
                     ...commonTooltipOptions.plugins,
                     legend: {
                         position: 'top',
+                        labels: {
+                            color: '#F7F5F2'
+                        }
                     },
                 },
                 scales: {
                     r: {
-                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        angleLines: { color: 'rgba(255, 255, 255, 0.2)' },
+                        grid: { color: 'rgba(255, 255, 255, 0.2)' },
                         pointLabels: { 
                             font: { size: 12, weight: 'bold' },
-                            color: '#071E3D'
+                            color: '#F7F5F2'
                         },
                         suggestedMin: 0,
                         suggestedMax: 10,
                         ticks: {
-                           backdropColor: 'rgba(255, 255, 255, 0.75)',
-                           color: '#6c757d'
+                           backdropColor: 'rgba(0, 0, 0, 0.5)',
+                           color: '#cbd5e1'
                         }
                     }
                 },
